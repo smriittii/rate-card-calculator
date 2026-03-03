@@ -10,19 +10,3 @@ A fully interactive influencer rate card tool with live rate calculation for the
 - Add-on multiplier guide (usage rights, exclusivity, retainers)
 - Legal/tax compliance notes for both markets
 
-## Deploy on Vercel
-
-### Option 1 — Vercel Dashboard (easiest)
-1. Push this repo to GitHub
-2. Go to [vercel.com](https://vercel.com) → **Add New Project**
-3. Import your GitHub repo
-4. Leave all settings as default → click **Deploy**
-
-### Option 2 — Vercel CLI
-```bash
-npm i -g vercel
-vercel
-```
-
-## Local Development
-Just open `index.html` in any browser — no build step needed.
