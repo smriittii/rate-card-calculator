@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KollectivRuhm Studio — Rate Cards 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0D0D0D; --surface:#161616; --surface2:#1E1E1E; --border:rgba(255,255,255,0.08);
+  --de:#E8B84B; --de-dim:rgba(232,184,75,0.12); --de-border:rgba(232,184,75,0.3);
+  --in:#FF6B35; --in-dim:rgba(255,107,53,0.1); --in-border:rgba(255,107,53,0.3);
+  --green:#4ADE80; --text:#E5E5E5; --text2:#888; --muted:#444;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;min-height:100vh;font-size:14px;}
+
+/* TOPBAR */
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:200;}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:var(--text);}
+.logo span{color:var(--de);}
+.tabs{display:flex;gap:3px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:3px;}
+.tab{padding:6px 14px;border-radius:4px;border:none;background:transparent;color:var(--text2);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.tab.de.active{background:var(--de-dim);color:var(--de);border:1px solid var(--de-border);}
+.tab.in.active{background:var(--in-dim);color:var(--in);border:1px solid var(--in-border);}
+.tab.tier.active{background:rgba(255,255,255,0.08);color:var(--text);}
+.tab:not(.active):hover{color:var(--text);background:rgba(255,255,255,0.04);}
+
+/* CALC BAR */
+.calc-bar{background:#111;border-bottom:2px solid var(--de-border);padding:12px 24px;display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;position:sticky;top:51px;z-index:190;transition:border-color 0.3s;}
+.calc-bar.india{border-bottom-color:var(--in-border);}
+.calc-fields{display:flex;gap:10px;flex-wrap:wrap;flex:1;}
+.cf{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:8px 12px;display:flex;flex-direction:column;gap:4px;flex:1;min-width:130px;transition:border-color 0.2s;}
+.cf:focus-within{border-color:rgba(232,184,75,0.5);}
+.cf-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.15em;color:var(--text2);text-transform:uppercase;}
+.cf-row{display:flex;align-items:center;gap:4px;}
+.cf input,.cf select{background:transparent;border:none;outline:none;color:var(--text);font-family:'Syne',sans-serif;font-weight:700;font-size:16px;width:100%;-moz-appearance:textfield;}
+.cf input::-webkit-outer-spin-button,.cf input::-webkit-inner-spin-button{-webkit-appearance:none;}
+.cf select{font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;appearance:none;}
+.cf select option{background:#111;}
+.cf-unit{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--de);flex-shrink:0;}
+.calc-info{display:flex;flex-direction:column;gap:5px;align-items:flex-end;flex-shrink:0;}
+.tier-pill{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;padding:5px 12px;border-radius:4px;border:1px solid;white-space:nowrap;}
+.tp-nano{background:rgba(100,200,255,0.08);color:#64C8FF;border-color:rgba(100,200,255,0.2);}
+.tp-micro{background:rgba(74,222,128,0.08);color:var(--green);border-color:rgba(74,222,128,0.2);}
+.tp-mid{background:var(--de-dim);color:var(--de);border-color:var(--de-border);}
+.tp-macro{background:rgba(180,100,255,0.1);color:#B464FF;border-color:rgba(180,100,255,0.2);}
+.reach-pill{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text2);letter-spacing:0.08em;white-space:nowrap;}
+
+/* HERO */
+.hero{padding:32px 24px 22px;border-bottom:1px solid var(--border);display:none;}
+.hero.show{display:block;}
+.hero-inner{padding-left:16px;border-left:3px solid;}
+.hero.de .hero-inner{border-color:var(--de);}
+.hero.in .hero-inner{border-color:var(--in);}
+.hero-over{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;margin-bottom:8px;}
+.hero.de .hero-over{color:var(--de);}
+.hero.in .hero-over{color:var(--in);}
+.hero-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.4rem,3vw,2.4rem);letter-spacing:-0.03em;margin-bottom:6px;line-height:1.1;}
+.hero-sub{color:var(--text2);font-size:13px;font-weight:300;max-width:600px;line-height:1.6;}
+.mstats{display:flex;gap:24px;margin-top:16px;flex-wrap:wrap;}
+.ms-val{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;}
+.ms-val.de{color:var(--de);}
+.ms-val.in{color:var(--in);}
+.ms-lbl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.18em;color:var(--text2);text-transform:uppercase;margin-top:2px;}
+
+/* MAIN */
+.main{padding:0 24px 80px;max-width:1200px;margin:0 auto;}
+.tier-sec{display:none;padding-top:24px;}
+.tier-sec.show{display:block;}
+
+.sec-hdr{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px;padding:16px 20px;border-radius:6px;border:1px solid;}
+.sh-std{border-color:rgba(100,200,255,0.2);background:rgba(100,200,255,0.04);}
+.sh-hv{border-color:rgba(255,160,50,0.25);background:rgba(255,160,50,0.05);}
+.sh-mr{border-color:rgba(180,100,255,0.25);background:rgba(180,100,255,0.05);}
+.sh-badge{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.2em;padding:5px 10px;border-radius:3px;text-transform:uppercase;white-space:nowrap;margin-top:2px;}
+.sb-std{background:rgba(100,200,255,0.1);color:#64C8FF;}
+.sb-hv{background:rgba(255,160,50,0.1);color:#FFA032;}
+.sb-mr{background:rgba(180,100,255,0.1);color:#B464FF;}
+.sh-name{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;margin-bottom:4px;}
+.sh-desc{font-size:12px;color:var(--text2);font-weight:300;line-height:1.6;}
+
+.sec-lbl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+.sec-lbl::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* RATE TABLE */
+.tbl-wrap{border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:16px;}
+.tbl-scroll{overflow-x:auto;}
+.tbl{width:100%;border-collapse:collapse;min-width:600px;}
+.tbl th{padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.18em;color:var(--text2);text-transform:uppercase;background:var(--surface2);border-right:1px solid var(--border);text-align:left;font-weight:400;white-space:nowrap;}
+.tbl th:last-child{border-right:none;}
+.tbl th.ycol-de{background:rgba(232,184,75,0.12);color:var(--de);}
+.tbl th.ycol-in{background:rgba(255,107,53,0.1);color:var(--in);}
+.tbl td{padding:12px 14px;border-top:1px solid var(--border);border-right:1px solid var(--border);vertical-align:top;}
+.tbl td:last-child{border-right:none;}
+.tbl tr:hover td{background:rgba(255,255,255,0.02);}
+.tbl td.ycol-de{background:rgba(232,184,75,0.05);}
+.tbl td.ycol-in{background:rgba(255,107,53,0.04);}
+.fmt-cell{display:flex;align-items:center;gap:8px;}
+.fmt-icon{font-size:15px;flex-shrink:0;}
+.fmt-name{font-size:12px;font-weight:500;white-space:nowrap;}
+.rate-main{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;}
+.rate-main.de{color:var(--de);}
+.rate-main.in{color:var(--in);}
+.rate-main.yours{font-size:13px;font-weight:700;}
+.rate-bench{font-size:10px;color:var(--text2);font-family:'IBM Plex Mono',monospace;margin-top:2px;}
+.rate-tag{display:inline-flex;font-family:'IBM Plex Mono',monospace;font-size:9px;padding:1px 5px;border-radius:2px;margin-top:3px;}
+.rt-yours{background:rgba(74,222,128,0.1);color:var(--green);}
+.rt-mkt{background:rgba(255,255,255,0.05);color:var(--text2);}
+
+/* INSIGHTS */
+.insight-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin-bottom:18px;}
+.ic{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px;}
+.ic-title{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text2);margin-bottom:7px;}
+.ic-body{font-size:12px;line-height:1.7;font-weight:300;}
+.ic-body strong{font-weight:500;color:var(--text);}
+
+/* COMPLIANCE */
+.comply{border-radius:6px;padding:14px 18px;margin-bottom:18px;font-size:12px;line-height:1.7;font-weight:300;}
+.comply.de{background:rgba(232,184,75,0.06);border:1px solid var(--de-border);}
+.comply.in{background:var(--in-dim);border:1px solid var(--in-border);}
+.comply strong{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;display:block;margin-bottom:5px;}
+.comply.de strong{color:var(--de);}
+.comply.in strong{color:var(--in);}
+
+/* ADDON TABLE */
+.addon-tbl{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:12px;}
+.addon-tbl th{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--text2);padding:9px 12px;text-align:left;background:var(--surface2);border:1px solid var(--border);font-weight:400;}
+.addon-tbl td{padding:9px 12px;border:1px solid var(--border);color:var(--text);font-weight:300;line-height:1.5;vertical-align:top;}
+.addon-tbl tr:hover td{background:rgba(255,255,255,0.02);}
+.vde{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--de);}
+.vin{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--in);}
+.divider{height:1px;background:var(--border);margin:24px 0;}
+.sources{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.1em;padding:14px 0 0;border-top:1px solid var(--border);line-height:1.8;}
+
+@media(max-width:700px){
+  .topbar,.calc-bar,.main,.hero{padding-left:14px;padding-right:14px;}
+  .calc-bar{top:48px;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">Kollectiv<span>Ruhm</span> Studio</div>
+  <div class="tabs" id="mkt-tabs">
+    <button class="tab de active" onclick="setMarket('de')">🇩🇪 Germany</button>
+    <button class="tab in" onclick="setMarket('in')">🇮🇳 India</button>
+  </div>
+  <div class="tabs" id="tier-tabs">
+    <button class="tab tier active" onclick="setTier(this,'std')">Standard</button>
+    <button class="tab tier" onclick="setTier(this,'hv')">High-Value</button>
+    <button class="tab tier" onclick="setTier(this,'mr')">Max Revenue</button>
+  </div>
+</div>
+
+<div class="calc-bar" id="calc-bar">
+  <div class="calc-fields">
+    <div class="cf">
+      <span class="cf-label">Followers</span>
+      <div class="cf-row">
+        <input type="number" id="inp-followers" value="50000" min="1000" step="1000" oninput="recalc()">
+      </div>
+    </div>
+    <div class="cf">
+      <span class="cf-label">ER per Post (Socialinsider)</span>
+      <div class="cf-row">
+        <input type="number" id="inp-er" value="1.67" step="0.01" min="0.01" max="30" oninput="recalc()">
+        <span class="cf-unit">%</span>
+      </div>
+    </div>
+    <div class="cf">
+      <span class="cf-label">Platform</span>
+      <div class="cf-row">
+        <select id="inp-platform" onchange="recalc()">
+          <option value="ig_feed">Instagram Feed</option>
+          <option value="ig_reels">Instagram Reels</option>
+          <option value="tiktok">TikTok</option>
+          <option value="yt_long">YouTube Long-form</option>
+          <option value="yt_shorts">YouTube Shorts</option>
+          <option value="linkedin">LinkedIn</option>
+        </select>
+      </div>
+    </div>
+    <div class="cf">
+      <span class="cf-label">Niche</span>
+      <div class="cf-row">
+        <select id="inp-niche" onchange="recalc()">
+          <option value="1.4">Finance / Investing</option>
+          <option value="1.3">Tech / SaaS</option>
+          <option value="1.2">Health &amp; Wellness</option>
+          <option value="1.15">Beauty &amp; Skincare</option>
+          <option value="1.0" selected>Fashion &amp; Lifestyle</option>
+          <option value="1.0">Food &amp; Travel</option>
+          <option value="0.9">Entertainment</option>
+          <option value="1.25">B2B / Business</option>
+          <option value="1.1">Fitness &amp; Sports</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="calc-info">
+    <div id="tier-pill" class="tier-pill tp-micro">🇩🇪 Micro · 10K–50K</div>
+    <div id="reach-info" class="reach-pill">Est. reach: —</div>
+  </div>
+</div>
+
+<!-- GERMANY HERO -->
+<div class="hero de show" id="hero-de">
+  <div class="hero-inner">
+    <div class="hero-over">🇩🇪 German Market · Competitive Analysis 2025</div>
+    <div class="hero-title">Germany Influencer Rate Cards</div>
+    <div class="hero-sub">Based on Statista, Lookfamed &amp; GOVIRAL GLOBAL benchmarks. Rates in <strong>Euros (€)</strong>. Enter your Socialinsider ER per post — the tool back-calculates real reach per platform then prices off that.</div>
+    <div class="mstats">
+      <div><div class="ms-val de">€739M</div><div class="ms-lbl">Market 2025</div></div>
+      <div><div class="ms-val de">76%</div><div class="ms-lbl">Brand Adoption</div></div>
+      <div><div class="ms-val de">6.3%</div><div class="ms-lbl">Avg TikTok ER</div></div>
+      <div><div class="ms-val de">+12%</div><div class="ms-lbl">YoY Growth</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- INDIA HERO -->
+<div class="hero in" id="hero-in">
+  <div class="hero-inner">
+    <div class="hero-over">🇮🇳 Indian Market · Competitive Analysis 2025</div>
+    <div class="hero-title">India Influencer Rate Cards</div>
+    <div class="hero-sub">Based on Qoruz, Hobo.Video &amp; JigsawKraft benchmarks. Rates in <strong>Indian Rupees (₹)</strong>. 18% GST applies for registered creators. ★ Your Rate column is dynamically calculated from your inputs.</div>
+    <div class="mstats">
+      <div><div class="ms-val in">₹2,344Cr</div><div class="ms-lbl">Market 2025</div></div>
+      <div><div class="ms-val in">47%</div><div class="ms-lbl">Prefer Nano/Micro</div></div>
+      <div><div class="ms-val in">4–7%</div><div class="ms-lbl">Micro ER</div></div>
+      <div><div class="ms-val in">+15%</div><div class="ms-lbl">Regional Bonus</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="tier-sec show" id="sec-std">
+    <div class="sec-hdr sh-std">
+      <div class="sh-badge sb-std">Tier 01</div>
+      <div>
+        <div class="sh-name">Standard Package — Base Deliverables</div>
+        <div class="sh-desc">One-off collabs, product mentions, awareness campaigns. No add-ons. ★ Your Rate column is personalised to your inputs above.</div>
+      </div>
+    </div>
+    <div id="content-std"></div>
+  </div>
+
+  <div class="tier-sec" id="sec-hv">
+    <div class="sec-hdr sh-hv">
+      <div class="sh-badge sb-hv">Tier 02</div>
+      <div>
+        <div class="sh-name">High-Value Package — Bundles + Usage Rights</div>
+        <div class="sh-desc">Brand campaigns, product launches, deeper integrations. Includes usage rights and multi-format bundles. Price where you want most conversions to land.</div>
+      </div>
+    </div>
+    <div id="content-hv"></div>
+  </div>
+
+  <div class="tier-sec" id="sec-mr">
+    <div class="sec-hdr sh-mr">
+      <div class="sh-badge sb-mr">Tier 03</div>
+      <div>
+        <div class="sh-name">Max Revenue — Exclusivity, Retainers &amp; Full Campaigns</div>
+        <div class="sh-desc">Ambassador deals, exclusive partnerships. Use as price anchor so High-Value feels like the rational choice.</div>
+      </div>
+    </div>
+    <div id="content-mr"></div>
+    <div class="divider"></div>
+    <div class="sec-lbl">Universal Add-On Multipliers — Both Markets</div>
+    <table class="addon-tbl">
+      <thead><tr><th>Add-On</th><th>🇩🇪 Germany</th><th>🇮🇳 India</th><th>Justification</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Usage Rights (ads, 30d)</strong></td><td><div class="vde">+25–50%</div></td><td><div class="vin">+30–60%</div></td><td>Brand reuses your content in paid media</td></tr>
+        <tr><td><strong>Whitelisting / Boosting</strong></td><td><div class="vde">+30–60%</div></td><td><div class="vin">+40–70%</div></td><td>Brand runs ads directly from your handle</td></tr>
+        <tr><td><strong>Exclusivity (30-day niche)</strong></td><td><div class="vde">+40–100%</div></td><td><div class="vin">+50–100%</div></td><td>Locks out all competitor brands</td></tr>
+        <tr><td><strong>Rush delivery (&lt;7 days)</strong></td><td><div class="vde">+20–35%</div></td><td><div class="vin">+20–30%</div></td><td>Disrupts your content calendar</td></tr>
+        <tr><td><strong>Dedicated post (brand only)</strong></td><td><div class="vde">+30–50%</div></td><td><div class="vin">+25–45%</div></td><td>No dilution; full audience spotlight</td></tr>
+        <tr><td><strong>Regional/vernacular (IN only)</strong></td><td><div class="vde">N/A</div></td><td><div class="vin">+10–15%</div></td><td>Hindi/Tamil/Bengali drives higher ER</td></tr>
+        <tr><td><strong>Long-form (10+ min video)</strong></td><td><div class="vde">+50–80%</div></td><td><div class="vin">+40–70%</div></td><td>Significantly more production effort</td></tr>
+        <tr><td><strong>Retainer discount (3–6 mo)</strong></td><td><div class="vde">–10–15%</div></td><td><div class="vin">–15–25%</div></td><td>Offer slight discount for commitment</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sources">Sources: Statista Influencer Marketing Report 2024 · Lookfamed Germany 2024 · GOVIRAL GLOBAL Europe KOL Report 2025 · InfluenceFlow Benchmarks 2025 · Qoruz India Benchmarks 2025 · Hobo.Video India Creator Rates 2025 · JigsawKraft India Pricing Guide 2026 · Netzens India Influencer Cost 2025</div>
+</div>
+
+<script>
+// ── STATE ────────────────────────────────────────────────────
+var MKT = 'de';
+
+// ── PLATFORM CONFIG ──────────────────────────────────────────
+// er_to_reach: % of viewers who engage (Socialinsider ER = engagements/followers)
+// reach = (followers × ER%) / er_to_reach
+var PLATFORMS = {
+  ig_feed:   { label:'Instagram Feed',    er2r:0.040, cpm_de:14.0, cpm_in:2.5  },
+  ig_reels:  { label:'Instagram Reels',   er2r:0.065, cpm_de:12.0, cpm_in:2.0  },
+  tiktok:    { label:'TikTok',            er2r:0.090, cpm_de:9.0,  cpm_in:1.5  },
+  yt_long:   { label:'YouTube Long-form', er2r:0.025, cpm_de:18.0, cpm_in:3.5  },
+  yt_shorts: { label:'YouTube Shorts',    er2r:0.055, cpm_de:8.0,  cpm_in:1.2  },
+  linkedin:  { label:'LinkedIn',          er2r:0.030, cpm_de:28.0, cpm_in:6.0  }
+};
+
+// ── FOLLOWER TIER ────────────────────────────────────────────
+var COL_HEADERS = {
+  de: ['Nano (1K–10K)', 'Micro (10K–50K)', 'Mid (50K–250K)', 'Macro (250K–1M)'],
+  in: ['Nano (1K–10K)', 'Micro (10K–50K)', 'Mid (50K–500K)', 'Macro (500K–1M+)']
+};
+var TIER_PILLS = {
+  de: [
+    { txt:'🇩🇪 Nano · <10K',     cls:'tp-nano'  },
+    { txt:'🇩🇪 Micro · 10K–50K', cls:'tp-micro' },
+    { txt:'🇩🇪 Mid · 50K–250K',  cls:'tp-mid'   },
+    { txt:'🇩🇪 Macro · 250K–1M', cls:'tp-macro' }
+  ],
+  in: [
+    { txt:'🇮🇳 Nano · <10K',      cls:'tp-nano'  },
+    { txt:'🇮🇳 Micro · 10K–50K',  cls:'tp-micro' },
+    { txt:'🇮🇳 Mid · 50K–500K',   cls:'tp-mid'   },
+    { txt:'🇮🇳 Macro · 500K–1M+', cls:'tp-macro' }
+  ]
+};
+
+function getCol(f) {
+  if (f < 10000) return 0;
+  if (f < 50000) return 1;
+  if (MKT === 'de') return f < 250000 ? 2 : 3;
+  return f < 500000 ? 2 : 3;
+}
+
+// ── FORMAT NUMBERS ───────────────────────────────────────────
+function fDE(n) {
+  n = Math.round(n);
+  if (n >= 10000) return '\u20AC' + Math.round(n/1000) + 'K';
+  return '\u20AC' + n.toLocaleString('de-DE');
+}
+function fIN(n) {
+  n = Math.round(n);
+  if (n >= 100000) return '\u20B9' + (n/100000).toFixed(1) + 'L';
+  if (n >= 1000) return '\u20B9' + Math.round(n/1000) + 'K';
+  return '\u20B9' + n;
+}
+function fNum(n) { return MKT === 'de' ? fDE(n) : fIN(n); }
+function fRange(lo, hi) { return fNum(Math.round(lo)) + ' \u2013 ' + fNum(Math.round(hi)); }
+function fReach(n) {
+  if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+  if (n >= 1000) return (n/1000).toFixed(1) + 'K';
+  return Math.round(n) + '';
+}
+
+// ── BASE RATE CALC ───────────────────────────────────────────
+function calcBase(followers, erPct, nicheMult, platformKey) {
+  var cfg = PLATFORMS[platformKey];
+  var cpm = MKT === 'de' ? cfg.cpm_de : cfg.cpm_in;
+  // Socialinsider ER per post = engagements / followers × 100
+  // Back-calculate reach: reach = engagedUsers / er_to_reach_ratio
+  var engagedUsers = followers * (erPct / 100);
+  var reach = engagedUsers / cfg.er2r;
+  var base = (reach / 1000) * cpm * nicheMult;
+  // Market floors
+  if (MKT === 'de') {
+    if (followers < 5000)       base = Math.max(base, 60);
+    else if (followers < 10000) base = Math.max(base, 110);
+    else if (followers < 50000) base = Math.max(base, 280);
+    else if (followers < 250000)base = Math.max(base, 750);
+    else                        base = Math.max(base, 2800);
+  } else {
+    if (followers < 5000)       base = Math.max(base, 1500);
+    else if (followers < 10000) base = Math.max(base, 3000);
+    else if (followers < 50000) base = Math.max(base, 9000);
+    else if (followers < 500000)base = Math.max(base, 35000);
+    else                        base = Math.max(base, 130000);
+  }
+  return { base: base, reach: reach };
+}
+
+// ── STATIC MARKET BENCHMARKS ────────────────────────────────
+// [nano, micro, mid, macro] per format per tier per market
+var BENCH = {
+  de: {
+    std: [
+      ['\u20AC50\u2013\u20AC150',  '\u20AC200\u2013\u20AC500',  '\u20AC600\u2013\u20AC1.5K', '\u20AC2K\u2013\u20AC5K'],
+      ['\u20AC80\u2013\u20AC200',  '\u20AC300\u2013\u20AC700',  '\u20AC900\u2013\u20AC2.2K', '\u20AC3K\u2013\u20AC7K'],
+      ['\u20AC30\u2013\u20AC80',   '\u20AC100\u2013\u20AC250',  '\u20AC350\u2013\u20AC700',  '\u20AC900\u2013\u20AC2K'],
+      ['\u20AC60\u2013\u20AC150',  '\u20AC250\u2013\u20AC600',  '\u20AC800\u2013\u20AC2K',   '\u20AC2.5K\u2013\u20AC6K'],
+      ['\u20AC100\u2013\u20AC250', '\u20AC400\u2013\u20AC900',  '\u20AC1.2K\u2013\u20AC3K',  '\u20AC4K\u2013\u20AC10K']
+    ],
+    hv: [
+      ['\u20AC200\u2013\u20AC400', '\u20AC700\u2013\u20AC1.4K', '\u20AC2K\u2013\u20AC4.5K',  '\u20AC6K\u2013\u20AC14K'],
+      ['\u20AC250\u2013\u20AC500', '\u20AC800\u2013\u20AC1.6K', '\u20AC2.5K\u2013\u20AC5.5K','\u20AC7K\u2013\u20AC16K'],
+      ['\u20AC350\u2013\u20AC700', '\u20AC1.1K\u2013\u20AC2.2K','\u20AC3K\u2013\u20AC7K',    '\u20AC9K\u2013\u20AC20K'],
+      ['\u20AC300\u2013\u20AC600', '\u20AC900\u2013\u20AC2K',   '\u20AC3K\u2013\u20AC7.5K',  '\u20AC10K\u2013\u20AC25K']
+    ],
+    mr: [
+      ['\u20AC300\u2013\u20AC700',    '\u20AC1K\u2013\u20AC2.5K',    '\u20AC3.5K\u2013\u20AC9K',   '\u20AC12K\u2013\u20AC30K'],
+      ['\u20AC400\u2013\u20AC900/mo', '\u20AC1.2K\u2013\u20AC3K/mo', '\u20AC4K\u2013\u20AC10K/mo', '\u20AC15K\u2013\u20AC40K/mo'],
+      ['\u20AC500\u2013\u20AC1.2K',   '\u20AC1.8K\u2013\u20AC4K',    '\u20AC5K\u2013\u20AC12K',    '\u20AC18K\u2013\u20AC45K'],
+      ['\u20AC2K\u2013\u20AC5K',      '\u20AC6K\u2013\u20AC15K',     '\u20AC20K\u2013\u20AC50K',   '\u20AC60K\u2013\u20AC150K']
+    ]
+  },
+  in: {
+    std: [
+      ['\u20B91K\u2013\u20B93K',   '\u20B95K\u2013\u20B915K',  '\u20B920K\u2013\u20B960K',  '\u20B980K\u2013\u20B92L'],
+      ['\u20B92K\u2013\u20B95K',   '\u20B98K\u2013\u20B925K',  '\u20B930K\u2013\u20B980K',  '\u20B91L\u2013\u20B93L'],
+      ['\u20B9500\u2013\u20B91.5K','\u20B93K\u2013\u20B98K',   '\u20B910K\u2013\u20B930K',  '\u20B940K\u2013\u20B91L'],
+      ['\u20B91.5K\u2013\u20B94K', '\u20B98K\u2013\u20B925K',  '\u20B930K\u2013\u20B970K',  '\u20B980K\u2013\u20B92L'],
+      ['\u20B93K\u2013\u20B98K',   '\u20B915K\u2013\u20B940K', '\u20B950K\u2013\u20B91.5L', '\u20B92L\u2013\u20B95L']
+    ],
+    hv: [
+      ['\u20B95K\u2013\u20B912K',  '\u20B918K\u2013\u20B945K',  '\u20B960K\u2013\u20B91.5L', '\u20B92L\u2013\u20B95L'],
+      ['\u20B96K\u2013\u20B915K',  '\u20B920K\u2013\u20B955K',  '\u20B975K\u2013\u20B92L',   '\u20B92.5L\u2013\u20B96L'],
+      ['\u20B98K\u2013\u20B920K',  '\u20B925K\u2013\u20B965K',  '\u20B990K\u2013\u20B92.5L', '\u20B93L\u2013\u20B98L'],
+      ['\u20B98K\u2013\u20B920K',  '\u20B925K\u2013\u20B965K',  '\u20B980K\u2013\u20B92.5L', '\u20B93L\u2013\u20B98L']
+    ],
+    mr: [
+      ['\u20B98K\u2013\u20B920K',      '\u20B930K\u2013\u20B980K',      '\u20B91L\u2013\u20B93L',          '\u20B94L\u2013\u20B910L'],
+      ['\u20B910K\u2013\u20B925K/mo',  '\u20B935K\u2013\u20B990K/mo',   '\u20B91.2L\u2013\u20B93.5L/mo',   '\u20B94L\u2013\u20B912L/mo'],
+      ['\u20B915K\u2013\u20B935K',     '\u20B950K\u2013\u20B91.25L',    '\u20B91.5L\u2013\u20B94L',        '\u20B95L\u2013\u20B915L'],
+      ['\u20B950K\u2013\u20B91.2L',    '\u20B91.5L\u2013\u20B94L',      '\u20B95L\u2013\u20B915L',         '\u20B920L\u2013\u20B975L']
+    ]
+  }
+};
+
+// format rows per tier
+var FMTS = {
+  std: [
+    ['\uD83D\uDCF8','IG Feed Post'],
+    ['\uD83C\uDFAC','IG Reel'],
+    ['\u2B55','IG Stories (3\u00D7)'],
+    ['\uD83C\uDFB5','TikTok / YT Shorts'],
+    ['\u25B6\uFE0F','YouTube Long-form']
+  ],
+  hv: [
+    ['\uD83C\uDFAF','Reel + Stories + Usage (30d)'],
+    ['\uD83D\uDCE6','Feed + Reel + Stories Bundle'],
+    ['\uD83D\uDD01','Content Series (3 posts/6wks)'],
+    ['\u25B6\uFE0F','YouTube + IG Cross-Post']
+  ],
+  mr: [
+    ['\uD83D\uDD12','Exclusivity (30d, 1 niche)'],
+    ['\uD83D\uDCC5','Monthly Retainer (4 posts/mo)'],
+    ['\uD83D\uDE80','Full Campaign (all formats + ads)'],
+    ['\uD83C\uDF1F','Brand Ambassador (6 months)']
+  ]
+};
+
+// multipliers vs base feed-post rate
+var MULT = {
+  std: [1.00, 1.45, 0.32, 1.20, 1.80],
+  hv:  [1.55, 1.80, 2.20, 2.60],
+  mr:  [2.80, 3.40, 3.90, null]   // null = ambassador (calculated separately)
+};
+
+// ── TABLE BUILDER ─────────────────────────────────────────────
+function buildTable(tierKey, base, userCol) {
+  var fmts = FMTS[tierKey];
+  var bench = BENCH[MKT][tierKey];
+  var mults = MULT[tierKey];
+  var cols = COL_HEADERS[MKT];
+  var isDE = MKT === 'de';
+  var ac = isDE ? 'de' : 'in';
+  var yCls = isDE ? 'ycol-de' : 'ycol-in';
+
+  var h = '<div class="tbl-wrap"><div class="tbl-scroll"><table class="tbl"><thead><tr>';
+  h += '<th>Format</th>';
+  for (var ci = 0; ci < 4; ci++) {
+    var isY = ci === userCol;
+    h += '<th class="' + (isY ? yCls : '') + '">' + (isY ? '\u2605 ' : '') + cols[ci] + '</th>';
+  }
+  h += '</tr></thead><tbody>';
+
+  for (var ri = 0; ri < fmts.length; ri++) {
+    var icon = fmts[ri][0];
+    var name = fmts[ri][1];
+    var mult = mults[ri];
+    h += '<tr><td><div class="fmt-cell"><span class="fmt-icon">' + icon + '</span><span class="fmt-name">' + name + '</span></div></td>';
+
+    for (var ci2 = 0; ci2 < 4; ci2++) {
+      var isY2 = ci2 === userCol;
+      var bval = bench[ri][ci2];
+      var yourVal = null;
+
+      if (isY2 && mult !== null) {
+        var raw = base * mult;
+        if (tierKey === 'mr' && ri === 1) {
+          // retainer: show /mo
+          yourVal = fRange(raw * 0.85, raw * 1.15) + '/mo';
+        } else {
+          yourVal = fRange(raw * 0.85, raw * 1.15);
+        }
+      } else if (isY2 && mult === null) {
+        // ambassador 6-month deal
+        var retainerBase = base * MULT.mr[1];
+        var dealVal = retainerBase * 6 * 0.85;
+        yourVal = fRange(dealVal * 0.85, dealVal * 1.15);
+      }
+
+      h += '<td class="' + (isY2 ? yCls : '') + '">';
+      if (isY2 && yourVal) {
+        h += '<div class="rate-main ' + ac + ' yours">' + yourVal + '</div>';
+        h += '<div class="rate-bench">Market: ' + bval + '</div>';
+        h += '<div class="rate-tag rt-yours">\u2605 Your Rate</div>';
+      } else {
+        h += '<div class="rate-main ' + ac + '">' + bval + '</div>';
+        h += '<div class="rate-tag rt-mkt">\u2248 Market</div>';
+      }
+      h += '</td>';
+    }
+    h += '</tr>';
+  }
+
+  h += '</tbody></table></div></div>';
+  return h;
+}
+
+// ── RENDER TIER CONTENT ──────────────────────────────────────
+function renderContent(tierKey, base, userCol) {
+  var isDE = MKT === 'de';
+  var h = '';
+
+  if (tierKey === 'std') {
+    h += '<div class="sec-lbl">' + (isDE ? '🇩🇪 Germany &middot; Standard Rates (&euro;)' : '🇮🇳 India &middot; Standard Rates (&#8377;)') + '</div>';
+    h += buildTable('std', base, userCol);
+    if (isDE) {
+      h += '<div class="comply de"><strong>🇩🇪 Germany Legal &amp; Disclosure</strong>All sponsored content must be labelled <strong>#Werbung</strong> or <strong>#Anzeige</strong> under German TMG law. Instagram\'s "Paid Partnership" label alone is not sufficient. Non-compliance risks fines up to &euro;250,000.</div>';
+    } else {
+      h += '<div class="comply in"><strong>🇮🇳 India Legal &amp; Tax</strong>ASCI requires <strong>#Ad</strong> or <strong>#Sponsored</strong> disclosure. GST-registered creators add <strong>18% GST</strong> on top. TDS deduction applies for payments over &#8377;30,000.</div>';
+    }
+  }
+
+  if (tierKey === 'hv') {
+    h += '<div class="sec-lbl">' + (isDE ? '🇩🇪 Germany &middot; High-Value Rates (&euro;)' : '🇮🇳 India &middot; High-Value Rates (&#8377;)') + '</div>';
+    h += buildTable('hv', base, userCol);
+    h += '<div class="insight-grid">';
+    h += '<div class="ic"><div class="ic-title">' + (isDE ? '🇩🇪 Germany Insight' : '🇮🇳 India Insight') + '</div><div class="ic-body">';
+    h += isDE
+      ? 'German brands favour <strong>multi-post series</strong> over single activations. Finance and health niches command a <strong>20&ndash;40% premium</strong>. TikTok is now the #1 platform for 69% of brands.'
+      : 'Indian micro-influencers in fintech/health charge <strong>2&ndash;3&times; more</strong> than lifestyle peers. Reels drive <strong>2&times; more organic reach</strong> vs static posts. Regional creators earn a premium.';
+    h += '</div></div>';
+    h += '<div class="ic"><div class="ic-title">&#128203; Usage Rights</div><div class="ic-body">';
+    h += isDE
+      ? 'Charge <strong>+25&ndash;50%</strong> for 30-day usage rights. Whitelisting: <strong>+30&ndash;60%</strong>. Exclusivity adds <strong>+40&ndash;80%</strong>. Always itemize as separate line items.'
+      : 'Indian brands pay <strong>+30&ndash;100%</strong> for ad content licensing. 6-month usage doubles the rate. Negotiate <strong>50% upfront</strong>. Bundle discounts of 15&ndash;25% for 3+ posts.';
+    h += '</div></div></div>';
+  }
+
+  if (tierKey === 'mr') {
+    h += '<div class="sec-lbl">' + (isDE ? '🇩🇪 Germany &middot; Max Revenue Rates (&euro;)' : '🇮🇳 India &middot; Max Revenue Rates (&#8377;)') + '</div>';
+    h += buildTable('mr', base, userCol);
+  }
+
+  return h;
+}
+
+// ── MAIN RECALC ──────────────────────────────────────────────
+function recalc() {
+  var followers = parseFloat(document.getElementById('inp-followers').value) || 50000;
+  var erPct     = parseFloat(document.getElementById('inp-er').value)        || 1.67;
+  var nicheMult = parseFloat(document.getElementById('inp-niche').value)     || 1.0;
+  var platform  = document.getElementById('inp-platform').value              || 'ig_feed';
+
+  var userCol = getCol(followers);
+  var result  = calcBase(followers, erPct, nicheMult, platform);
+  var base    = result.base;
+  var reach   = result.reach;
+
+  // Update tier pill
+  var pill = TIER_PILLS[MKT][userCol];
+  var pillEl = document.getElementById('tier-pill');
+  pillEl.textContent = pill.txt;
+  pillEl.className = 'tier-pill ' + pill.cls;
+
+  // Update reach display
+  document.getElementById('reach-info').textContent =
+    'Est. reach: ~' + fReach(reach) + ' (' + PLATFORMS[platform].label + ')';
+
+  // Update calc bar border colour
+  document.getElementById('calc-bar').className = MKT === 'de' ? 'calc-bar' : 'calc-bar india';
+
+  // Render all three tier content blocks
+  document.getElementById('content-std').innerHTML = renderContent('std', base, userCol);
+  document.getElementById('content-hv').innerHTML  = renderContent('hv',  base, userCol);
+  document.getElementById('content-mr').innerHTML  = renderContent('mr',  base, userCol);
+}
+
+// ── NAV ──────────────────────────────────────────────────────
+function setMarket(m) {
+  MKT = m;
+  // Update market tab styles
+  document.querySelectorAll('#mkt-tabs .tab').forEach(function(b) { b.classList.remove('active'); });
+  document.querySelector('#mkt-tabs .tab.' + m).classList.add('active');
+  // Show/hide heroes
+  document.getElementById('hero-de').className = 'hero de' + (m === 'de' ? ' show' : '');
+  document.getElementById('hero-in').className = 'hero in' + (m === 'in' ? ' show' : '');
+  // Re-render with new market
+  recalc();
+}
+
+function setTier(el, t) {
+  document.querySelectorAll('#tier-tabs .tab').forEach(function(b) { b.classList.remove('active'); });
+  el.classList.add('active');
+  document.querySelectorAll('.tier-sec').forEach(function(s) { s.classList.remove('show'); });
+  document.getElementById('sec-' + t).classList.add('show');
+}
+
+// ── INIT ─────────────────────────────────────────────────────
+recalc();
+</script>
+</body>
+</html>
